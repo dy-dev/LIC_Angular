@@ -1,4 +1,4 @@
-var myApp = angular.module("myApp", [])
+var myApp = angular.module("myApp", ['ngAnimate'])
         .controller('filesCtrl', function ($scope, $http) {
             var mainDir = "http://testsite.lightinchaos.com/gallery/Medias/"
             var dir = "http://testsite.lightinchaos.com/gallery/Medias/Miniatures/";
@@ -18,7 +18,7 @@ var myApp = angular.module("myApp", [])
              }).done(function(){
              alert($scope.Files[1].fileName);
              });*/
-            $scope.Wholetags = [];
+            $scope.Wholetags = {};
 
             $http({
                 method: 'GET',
@@ -31,7 +31,7 @@ var myApp = angular.module("myApp", [])
 
                 var tmp = $(response).attr("data");
                 var myData = $($(response).attr("data")).find("a");
-                
+
                 $(myData).each(function ()
                 {
                     var lastChar = this.href.substr(-1); // Selects the last character
@@ -40,7 +40,7 @@ var myApp = angular.module("myApp", [])
                         var tag = mySplit[mySplit.length - 2];
                         var url = dir + tag + "/";
                         var tags = [];
-                        parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope.Wholetags );
+                        parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope);
                     }
                     /*var rowId = "_" + nbRow + '0';
                      var colId = "_" + nbRow + nbCol;
@@ -72,6 +72,36 @@ var myApp = angular.module("myApp", [])
                 // or server returns response with an error status.
                 //alert(response);
             });
+
+
+
+
+
+            $scope.getCheckBoxValue = function () {
+//        var allVals = [];
+//        $("input[type='checkbox']").each(function () {
+//            if (this.checked)
+//            {
+//                allVals.push($(this).attr('id'));
+//            }
+//        });
+                var tmpStr = "";
+                json = $scope.Wholetags;
+                for (var key in $scope.Wholetags) {
+                    if ($scope.Wholetags[key])
+                    {
+                        tmpStr += key + ", ";
+                    }
+
+                }
+                ;
+                $scope.selectedTags = tmpStr.substring(0, tmpStr.length - 2);
+            };
+
+            $scope.containsComparator = function (expected, actual) {
+                return actual.indexOf(expected) > -1;
+            };
+
         });
 
 

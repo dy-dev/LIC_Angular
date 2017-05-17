@@ -1,4 +1,4 @@
-function parseDir($http, mainDir, refDir, directory, files, tags, wholetags)
+function parseDir($http, mainDir, refDir, directory, files, tags, $scope)
 {
     var lastChar = directory.substr(-1); // Selects the last character
     if (lastChar === '/' && directory !== mainDir && this.text !== "Parent Directory")
@@ -6,9 +6,15 @@ function parseDir($http, mainDir, refDir, directory, files, tags, wholetags)
         var tmpDir = directory.toString();
         //alert("tmpDir : " + tmpDir + " , mainDir : " + mainDir);
         var mySplit = tmpDir.split('\/');
-        var tag = mySplit[mySplit.length - 2];
+        var tag = (mySplit[mySplit.length - 2]).replace(/%20/g, "_");
+
+
         tags.push(tag);
-        wholetags.push(tag);
+        var tmp = $scope.Wholetags[tag];
+        if ($scope.Wholetags[tag] === undefined) {
+            $scope.Wholetags[tag] = true;
+            // $("#tagSelector").append('<div class ="small-4 medium-3 large-2 columns end tagValue"> <input id="'+tag+'" type="checkbox" ng-model="'+$scope.Wholetags[tag]+'" onclick="getCheckBoxValue()"><label class="button expanded" for="'+tag+'">' + tag + '</label></div>');
+        }
         var url = refDir + tag;
         // alert("url : " + url);
         $http({
@@ -26,7 +32,7 @@ function parseDir($http, mainDir, refDir, directory, files, tags, wholetags)
                     var tag2 = mySplit2[mySplit2.length - 2];
                     var url2 = directory + tag2 + "/";
                     var tagCopy = tags.slice(0);
-                    parseDir($http, mainDir, directory, url2, files, tagCopy, wholetags);
+                    parseDir($http, mainDir, directory, url2, files, tagCopy, $scope);
                 }
                 else if (this.href.indexOf('.jpg') > 0)
                 {
@@ -49,13 +55,3 @@ function parseDir($http, mainDir, refDir, directory, files, tags, wholetags)
 
 }
 
-function getCheckBoxValue() {
-    var allVals = [];
-    $("input[type='checkbox']").each(function () {
-        if (this.checked)
-        {
-            allVals.push($(this).val());
-        }
-    });
-    alert(allVals);
-}
