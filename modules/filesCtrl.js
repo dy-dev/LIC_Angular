@@ -18,6 +18,7 @@ var myApp = angular.module("myApp", ['ngAnimate'])
              }).done(function(){
              alert($scope.Files[1].fileName);
              });*/
+            $scope.Categories = [];
             $scope.Wholetags = {};
 
             $http({
@@ -40,7 +41,9 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                         var tag = mySplit[mySplit.length - 2];
                         var url = dir + tag + "/";
                         var tags = [];
-                        parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope);
+                        $scope.Categories.push(tag) ;
+
+                        //parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope);
                     }
                     /*var rowId = "_" + nbRow + '0';
                      var colId = "_" + nbRow + nbCol;
