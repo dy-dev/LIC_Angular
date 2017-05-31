@@ -8,8 +8,8 @@
 
 $(window).on('load', function ()
 {
-    $("#MenuWrapper").load('../partials/menu.html');
+    // $("#MenuWrapper").load('../partials/menu.html');
     $("#SideBar").load('../partials/sidebar.html');
-    $("#Navigation").load('../partials/navigation.html');
+    // $("#Navigation").load('../partials/navigation.html');
  });
     

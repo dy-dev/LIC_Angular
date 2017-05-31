@@ -47,8 +47,10 @@ and open the template in the editor.
             }
             .imgHolder
             {
-                display:flex;
-                margin: 5px;
+                /*display:flex;*/
+                /*margin: 5px;*/
+                display: block;
+                margin: auto;
             }
 
             .button-group input{
@@ -65,7 +67,7 @@ and open the template in the editor.
         <div class="row">
             <div id="imgDiv"  ng-controller="filesCtrl" > 
 
-                <div id="SideBar" class="small-4 medium-3 large-3 columns">
+                <div id="SideBar" class="small-12 medium-3 large-2 columns">
                     <div id="SideBarContainer" class="small-8 small-centered" ng-model="sideBarCtrl">
                         <div class="sidebarContent" id="LogoInfos" >
                             <div class="WrapperLogo">
@@ -76,7 +78,7 @@ and open the template in the editor.
 
                             <ul class="sidebarContent"  id="links">
                                 <li>
-                                    <div class="links" onclick="goTo('../')">Portfolio</div> 
+                                    <div class="links" id="Catégories" onclick="goToImgDir()">Portfolio</div> 
                                     <div class="chevronDown">
                                         <ul class='underlinks' ng-repeat="cat in Categories">
                                             <li class="links" id={{cat}} onclick="goToImgDir()">{{cat}}</li>
@@ -88,11 +90,10 @@ and open the template in the editor.
                     </div>
                 </div> 
 
-                <div id="categoriesHolder" class="small-4 medium-3 large-9 columns " >
-                    <div class="small-4 medium-3 large-3 columns slide end" ng-repeat="file in Categories">
-                        <div class="imgHolder">
-                            <img src=Medias/Miniatures/{{file}}.jpg>
-                        </div>
+                <div id="categoriesHolder" class="small-12 medium-9 large-10 columns " >
+                    <!-- item -->
+                    <div class="small-6 medium-4 large-4 columns slide end" ng-repeat="file in Files[activeFile]">
+                            <img class="imgHolder" id="" src=Medias/Miniatures/{{file}}>
                     </div>
                 </div> 
             </div> 
