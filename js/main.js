@@ -24,10 +24,12 @@ function goToImgDir()
         // parseDir($http, mainDir, refDir, directory, files, tags, $scope)
     } else {
         scope.activeFile = "Catégories";
+
     }
         // console.log("> activeFile");
         // console.log(scope.activeFile);
     
+    scope.$apply();
 
     /// suite
     /// activer le changement en lancant le parsedir
@@ -42,6 +44,7 @@ function goToImgDir()
     /// 
     /// penser a hide la div de bouton all si c'est "catégorie"
     /// 
+    /// récursive sur les souscatégorie seulement si ça a déjà été modifié
 }
 
 
