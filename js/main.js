@@ -5,121 +5,145 @@ $(window).on('load', function ()
 });
 
 
-function goToImgDir()
-{
-    console.log("GO_TO_IMG_DIR");
-
+function goToImgDir () {
     var scope = angular.element("#imgDiv").scope();
-    if (scope == null)
-        console.log("var scope gotoimgdir() == null")
-    else
-        console.dir(scope);
-        // console.log("var scope="+scope+"\n");
-    // console.log("all scope:\n" + angular.$scope);
     
     // console.log(">>>" + $(event.target).attr('id'));
     if ($(event.target).attr('id') != "Catégories") {
         scope.activeFile = $(event.target).attr('id');
-
-        // parseDir($http, mainDir, refDir, directory, files, tags, $scope)
+        if (scope.Categories[scope.activeFile].length != 0) {
+            angular.element(".button").show(0); /// trouver autre que hide !!!!!!! div fixe pour éviter les mouvements
+        }
+        else {
+            angular.element(".button").hide(0); 
+        }
+        scope.goToSubCat($(event.target).attr('id'));
+        // parseDir($http, mainDir, refDir, directory, files, tags, $scope);
     } else {
         scope.activeFile = "Catégories";
+        angular.element(".button").hide(0);
 
     }
-        // console.log("> activeFile");
-        // console.log(scope.activeFile);
-    
-    scope.$apply();
 
-    /// suite
-    /// activer le changement en lancant le parsedir
-    /// ??? comment trouver les variables necessaire ???
-    /// faire attention a la répartition notamment pour les sous catégorie
-    /// faire un affichage des boutons de sous catégorie
-    /// juste ajouter souscatégorie/images.jpg dans la catégorie correspondant
-    /// ajouter les item data-catégorie data-filter
-    /// mettre par default le all
-    /// lier au shuffle
-    /// si bouton selectionné hide des autre
-    /// 
-    /// penser a hide la div de bouton all si c'est "catégorie"
-    /// 
-    /// récursive sur les souscatégorie seulement si ça a déjà été modifié
+    // reset selection de tag
+    angular.element(scope.tagFilter).removeClass('btn-active');
+    angular.element("#all").addClass('btn-active');
+    scope.tagFilter = "";
+    scope.$apply();
+}
+
+function chooseFilter(){
+    var scope = angular.element("#imgDiv").scope();
+    var newFilter = "#" + $(event.target).attr('data-target');
+    var oldFilter = "#" + scope.tagFilter;
+
+    if (oldFilter == "#")
+        oldFilter = "#all";
+    console.log(">>>oldfilter="+oldFilter+" newFilter="+newFilter);
+    if ($(event.target).attr('data-target') != "all") {
+        scope.tagFilter = $(event.target).attr('data-target');
+    }
+    else {
+        scope.tagFilter = "";
+    }
+    angular.element(oldFilter).removeClass('btn-active');
+    angular.element(newFilter).addClass('btn-active');
+    scope.$apply();
+    // changement de couleur pas encore affecté comment charger la feuille js shuffle
 }
 
 
 function parseDir($http, mainDir, refDir, directory, files, tags, $scope)
 {
     console.log("PARSE_DIR");
-    return;
+    // console.log("\tmainDir="+mainDir+"\n\trefDir="+refDir+"\n\tdirectory="+directory+"\n\ttags="+tags+"\n\tfiles V");
+    // // console.log(files);
+    // console.log("\tscope V");
+    console.log($scope);
+    // console.log("******");
+    // // return;
 
     var lastChar = directory.substr(-1); // Selects the last character
-    if (lastChar === '/' && directory !== mainDir && this.text !== "Parent Directory")
-    {         // If the last character is not a slash
-        var tmpDir = directory.toString();
-        //alert("tmpDir : " + tmpDir + " , mainDir : " + mainDir);
+    if (lastChar === '/' && directory !== mainDir && this.text !== "Parent Directory") {
+        var tmpDir = directory.toString();  
         var mySplit = tmpDir.split('\/');
         var tag = (mySplit[mySplit.length - 2]).replace(/%20/g, "_");
 
-        // console.log(mySplit[mySplit.length - 3]);
         if (mySplit[mySplit.length - 3] == "Miniatures")
             console.log("catégorie:"+tag);
-        else
-            console.log("tag:"+tag);
-        // ?????? filtrer dedans ou retirer si pas besoin
-        tags.push(tag);
-        var tmp = $scope.Wholetags[tag];
-        if ($scope.Wholetags[tag] === undefined) {
-            $scope.Wholetags[tag] = true;
-            // $("#tagSelector").append('<div class ="small-4 medium-3 large-2 columns end tagValue"> <input id="'+tag+'" type="checkbox" ng-model="'+$scope.Wholetags[tag]+'" onclick="getCheckBoxValue()"><label class="button expanded" for="'+tag+'">' + tag + '</label></div>');
+        else {
+            console.dir("tag:"+tag);
+            // ajout des sous catégorie (1 niveau pour savoir les tag filtre a ajouter)
+            if (mySplit[mySplit.length - 4] == "Miniatures") {
+                $scope.Categories[mySplit[mySplit.length - 3]].push(tag);
+            }
         }
+
         var url = refDir + tag;
-        var i = 0;
+// var i = 0;
         $http({
             method: 'GET',
             url: directory
         }).then(function successCallback(response){
             var tmp = $(response).attr("data");
             var myData = $($(response).attr("data")).find("a");
+
             $(myData).each(function ()
             {
                 var lastChar = this.href.substr(-1); // Selects the last character
                 var mySplit2 = this.href.split('\/');
+                // erreur icone ovh
                 if (lastChar === '/' && this.href !== mainDir && this.text !== "Parent Directory") {
                     var tag2 = mySplit2[mySplit2.length - 2];
                     var url2 = directory + tag2 + "/";
                     var tagCopy = tags.slice(0);
-                    if (mySplit2[mySplit2.length - 3] != "Miniatures" ) {
-                        console.log("*** enter sub catégorie");
+
+                    // console.log("**");
+                    // console.log(mySplit2);
+                    // changer parent directory selon local ou en ligne
+                    // if (mySplit2[mySplit2.length - 3] != "LIC_Angular" ) {
+                    if (mySplit2[mySplit2.length - 2] != "LIC_Angular" ) {
+                    // if ($scope.activeFile != "Catégories") {
                         parseDir($http, mainDir, directory, url2, files, tagCopy, $scope);
-                    } else {
-                        console.log("*** do catégorie");
                     }
-
-
                 }
                 else if (this.href.indexOf('.jpg') > 0 || this.href.indexOf('.png') > 0)
                 {
+                    var tmp = url.split("Miniatures");
+                    var cat = "Catégories";
+                    var url3 = "";
+                    // mettre les tags en arborescence !!!
+                    
+                    // url3 pour test local
+                    if (cat != "/") {
+                        cat = tmp[1].split("\/")[1];
+                        tmp = tmp[1].split("\/");
+                        tmp.forEach(function(element, index) {
+                            if (index > 0)
+                              url3 = url3 + element + "/"; 
+                        });
+
+                    }
                     var tag2 = mySplit2[mySplit2.length - 1];
                     var url2 = directory + tag2;
-
-                    //alert("a priori fichier " + url2);
+                    // console.log("=>");
+                    // console.dir(tag2);
+                    
                     var myFile = {fileName: url2, tag: tags};
-                    files.push(myFile);
-                    // comptage de fichier
-                    i++;
+                    // files[cat].push(myFile.fileName);
+                    myFile = {fileName: (url3 + tag2), tag: tags};
+                    files[cat].push(myFile);
+// comptage de fichier
+// i++;
                 }
             });
 
-            console.log("insertion des "+i+" fichier:\n");
-            console.log($scope);
+// console.log("insertion des "+i+" fichier:\n");
+// console.log($scope);
         });
     }
-    else if (directory.indexOf('.jpg') > 0)
-    {
+    else if (directory.indexOf('.jpg') > 0) {
         alert("a priori fichier " + this.href);
-        //var myFile = {fileName: dir + filename, tag:};
-        //$scope.Files.push(myFile);
     }
 
 }

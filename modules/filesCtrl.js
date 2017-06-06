@@ -10,11 +10,8 @@ var myApp = angular.module("myApp", ['ngAnimate'])
             var index = 0;
             $scope.Files = [];
             $scope.Categories = [];
-            $scope.Wholetags = {};
             $scope.activeFile = "Catégories";
-
-            console.log("FILE_CTRL MY_APP");
-            // console.log($scope);
+            $scope.tagFilter = "";
             
             // construction d'un 1er repertoire a parcourir qui contient les miniatures
             $scope.Files.push("Catégories");
@@ -27,15 +24,13 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                 // this callback will be called asynchronously
                 // when the response is available
 
-                //parseDir($(response).attr("data"), tag);
-
-                console.log("Recup data $response");
-                console.log($(response));
+                // console.log("Recup data $response");
+                // console.log($(response));
 
                 var tmp = $(response).attr("data");
                 var myData = $($(response).attr("data")).find("a");
 
-                console.log(myData);
+                // console.log(myData);
                 
                 $(myData).each(function ()
                 {
@@ -47,16 +42,21 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                         var url = dir + tag + "/";
                         var tags = [];
                         $scope.Categories.push(tag);
-                        $scope.Files["Catégories"].push(tag + ".jpg");
+                        $scope.Categories[tag]= [];
+                        // pour coller a l'insertion de datacategorie dans les sous dossier
+                        var myFile = {fileName: (tag+".jpg"), tag: ["Categories", ""]};
+                        $scope.Files["Catégories"].push(myFile);
+                        // $scope.Files["Catégories"].push(tag + ".jpg");
                         $scope.Files.push(tag);
                         $scope.Files[tag] = [];
-                        $scope.Files[tag].push(tag + ".jpg");
+                        // $scope.Files[tag].push(tag + ".jpg");
+                        angular.element(".button").hide(0); /// trouver autre que hide !!!!!!!
                         
                         // checkpoint controle construction du tableau 2 dimensions (Files/Catégorie)
-                            console.log("FILE_CTRL: before parseDir:\n\tmainDir="+mainDir+"\n\tdir:"+dir+"\n\turl:"+url+"\n\ttags:"+tags+"\n");
-                            console.log($http);
-                            console.log($scope);
-                        // parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope);
+                            // console.log("FILE_CTRL: before parseDir:\n\tmainDir="+mainDir+"\n\tdir:"+dir+"\n\turl:"+url+"\n\ttags:"+tags+"\n");
+                            // console.log($http);
+                            // console.log($scope);
+                        parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope);
                     }
 
 
@@ -64,30 +64,34 @@ var myApp = angular.module("myApp", ['ngAnimate'])
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
-                //alert(response);
                 console.error("error response server");
+                console.error(response);
             });
 
 
+            $scope.goToSubCat = function(categorie) {
+                console.log("GO_TO_SUBCAT: categorie="+categorie);
+                console.log("lenght="+$scope.Files[categorie].length)
+                if ($scope.Files[categorie].length == 0)
+                    console.log("need go to subCat");
+                console.log($scope);
 
+                if ($scope.Files[categorie].length == 0) {
+                    var url = "http://testsite.lightinchaos.com/gallery/Medias/Miniatures/"+categorie+"/";
+                    var tags = []; /// ???
+
+                    parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope);
+                }
+            }
 
 
             $scope.getCheckBoxValue = function () {
-//        var allVals = [];
-//        $("input[type='checkbox']").each(function () {
-//            if (this.checked)
-//            {
-//                allVals.push($(this).attr('id'));
-//            }
-//        });
                 var tmpStr = "";
                 json = $scope.Wholetags;
                 for (var key in $scope.Wholetags) {
-                    if ($scope.Wholetags[key])
-                    {
+                    if ($scope.Wholetags[key]) {
                         tmpStr += key + ", ";
                     }
-
                 }
                 ;
                 $scope.selectedTags = tmpStr.substring(0, tmpStr.length - 2);

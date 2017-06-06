@@ -1,0 +1,35 @@
+.row {
+    padding: 5px;
+    max-width: 90%;
+    font-size: 13px; 
+}
+
+.links {
+    cursor: pointer;
+}
+
+.imgHolder
+{
+    /*display:flex;*/
+    /*margin: 5px;*/
+    display: block;
+    margin: auto;
+    padding: 2px;
+}
+
+.button {
+    margin: 5px;
+
+}
+
+/*.button-group input{
+    display: none;
+}
+.button-group input:checked + label,
+.button-group input:checked + label:active {
+    background-color: red;
+}*/
+
+li.btn-active{
+    background-color: red;
+}
