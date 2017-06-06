@@ -71,10 +71,10 @@ var myApp = angular.module("myApp", ['ngAnimate'])
 
             $scope.goToSubCat = function(categorie) {
                 console.log("GO_TO_SUBCAT: categorie="+categorie);
-                console.log("lenght="+$scope.Files[categorie].length)
-                if ($scope.Files[categorie].length == 0)
-                    console.log("need go to subCat");
-                console.log($scope);
+                // console.log("lenght="+$scope.Files[categorie].length)
+                // if ($scope.Files[categorie].length == 0)
+                //     console.log("need go to subCat");
+                // console.log($scope);
 
                 if ($scope.Files[categorie].length == 0) {
                     var url = "http://testsite.lightinchaos.com/gallery/Medias/Miniatures/"+categorie+"/";

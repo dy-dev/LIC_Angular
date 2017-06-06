@@ -7,29 +7,30 @@ $(window).on('load', function ()
 
 function goToImgDir () {
     var scope = angular.element("#imgDiv").scope();
-    
-    // console.log(">>>" + $(event.target).attr('id'));
-    if ($(event.target).attr('id') != "Catégories") {
-        scope.activeFile = $(event.target).attr('id');
-        if (scope.Categories[scope.activeFile].length != 0) {
-            angular.element(".button").show(0); /// trouver autre que hide !!!!!!! div fixe pour éviter les mouvements
-        }
-        else {
-            angular.element(".button").hide(0); 
-        }
-        scope.goToSubCat($(event.target).attr('id'));
-        // parseDir($http, mainDir, refDir, directory, files, tags, $scope);
-    } else {
-        scope.activeFile = "Catégories";
-        angular.element(".button").hide(0);
 
+    console.log(">>>" + $(event.target).attr('id'));
+    if ($(event.target).attr('id') != scope.activeFile) {
+        if ($(event.target).attr('id') != "Catégories") {
+            scope.activeFile = $(event.target).attr('id');
+            if (scope.Categories[scope.activeFile].length != 0) {
+                angular.element(".button").show(0); /// trouver autre que hide !!!!!!! div fixe pour éviter les mouvements
+            }
+            else {
+                angular.element(".button").hide(0); 
+            }
+            scope.goToSubCat($(event.target).attr('id'));
+            // parseDir($http, mainDir, refDir, directory, files, tags, $scope);
+        } else {
+            scope.activeFile = "Catégories";
+            angular.element(".button").hide(0);
+        }
+
+        // reset selection de tag
+        angular.element(scope.tagFilter).removeClass("btn-active");
+        angular.element("#all").addClass("btn-active");
+        scope.tagFilter = "";
+        scope.$apply();
     }
-
-    // reset selection de tag
-    angular.element(scope.tagFilter).removeClass('btn-active');
-    angular.element("#all").addClass('btn-active');
-    scope.tagFilter = "";
-    scope.$apply();
 }
 
 function chooseFilter(){
@@ -39,7 +40,7 @@ function chooseFilter(){
 
     if (oldFilter == "#")
         oldFilter = "#all";
-    console.log(">>>oldfilter="+oldFilter+" newFilter="+newFilter);
+    console.log(">>> oldfilter="+oldFilter+" newFilter="+newFilter);
     if ($(event.target).attr('data-target') != "all") {
         scope.tagFilter = $(event.target).attr('data-target');
     }
@@ -102,8 +103,8 @@ function parseDir($http, mainDir, refDir, directory, files, tags, $scope)
                     // console.log(mySplit2);
                     // changer parent directory selon local ou en ligne
                     // if (mySplit2[mySplit2.length - 3] != "LIC_Angular" ) {
-                    if (mySplit2[mySplit2.length - 2] != "LIC_Angular" ) {
-                    // if ($scope.activeFile != "Catégories") {
+                    // if (mySplit2[mySplit2.length - 2] != "LIC_Angular" ) {
+                    if ($scope.activeFile != "Catégories") {
                         parseDir($http, mainDir, directory, url2, files, tagCopy, $scope);
                     }
                 }
