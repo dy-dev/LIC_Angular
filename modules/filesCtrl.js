@@ -17,25 +17,20 @@ var myApp = angular.module("myApp", ['ngAnimate'])
             $scope.Files.push("Catégories");
             $scope.Files["Catégories"] = [];
 
+            // angular.element(".button").hide(0);
+
             $http({
                 method: 'GET',
                 url: dir
             }).then(function successCallback(response) {
                 // this callback will be called asynchronously
                 // when the response is available
-
-                // console.log("Recup data $response");
-                // console.log($(response));
-
                 var tmp = $(response).attr("data");
                 var myData = $($(response).attr("data")).find("a");
-
-                // console.log(myData);
                 
                 $(myData).each(function ()
                 {
                     var lastChar = this.href.substr(-1); // Selects the last character
-                    // console.log(">lastChar:"+lastChar);
                     if (lastChar === '/' && this.href !== mainDir && this.text !== "Parent Directory") {
                         var mySplit = this.href.split('\/');
                         var tag = mySplit[mySplit.length - 2];
@@ -50,12 +45,10 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                         $scope.Files.push(tag);
                         $scope.Files[tag] = [];
                         // $scope.Files[tag].push(tag + ".jpg");
-                        angular.element(".button").hide(0); /// trouver autre que hide !!!!!!!
-                        
+                        angular.element(".button").hide(0);
+                        // angular.element(".button").attr('display', 'inline-block');
+
                         // checkpoint controle construction du tableau 2 dimensions (Files/Catégorie)
-                            // console.log("FILE_CTRL: before parseDir:\n\tmainDir="+mainDir+"\n\tdir:"+dir+"\n\turl:"+url+"\n\ttags:"+tags+"\n");
-                            // console.log($http);
-                            // console.log($scope);
                         parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope);
                     }
 
@@ -68,13 +61,8 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                 console.error(response);
             });
 
-
             $scope.goToSubCat = function(categorie) {
                 console.log("GO_TO_SUBCAT: categorie="+categorie);
-                // console.log("lenght="+$scope.Files[categorie].length)
-                // if ($scope.Files[categorie].length == 0)
-                //     console.log("need go to subCat");
-                // console.log($scope);
 
                 if ($scope.Files[categorie].length == 0) {
                     var url = "http://testsite.lightinchaos.com/gallery/Medias/Miniatures/"+categorie+"/";
@@ -83,19 +71,6 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                     parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope);
                 }
             }
-
-
-            $scope.getCheckBoxValue = function () {
-                var tmpStr = "";
-                json = $scope.Wholetags;
-                for (var key in $scope.Wholetags) {
-                    if ($scope.Wholetags[key]) {
-                        tmpStr += key + ", ";
-                    }
-                }
-                ;
-                $scope.selectedTags = tmpStr.substring(0, tmpStr.length - 2);
-            };
 
             $scope.containsComparator = function (expected, actual) {
                 return actual.indexOf(expected) > -1;

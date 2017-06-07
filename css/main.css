@@ -1,7 +1,16 @@
+body {
+    background-color: #222;
+    color: #EEE;
+}
+
+li {
+    list-style:none;
+}
+
 .row {
     padding: 5px;
     max-width: 90%;
-    font-size: 13px; 
+    font-size: 13px;
 }
 
 .links {
@@ -10,15 +19,39 @@
 
 .imgHolder
 {
-    /*display:flex;*/
-    /*margin: 5px;*/
-    display: block;
+    /*display: block;
     margin: auto;
     padding: 2px;
+    background-color: red;*/
+
+    /*methode absolute parent relative*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #222;
+    padding: 3px;
 }
+
+.item {
+    height: 200px;
+    /*background-color: grey;*/
+    /*methode flex + margin auto child >>> IE10*/
+    /*display: flex;*/
+
+    /*methode absolute child IE9*/
+    position: relative;
+
+    /*only in parent for this flexbox*/
+    /*display: flex;
+    justify-content: center;
+    align-items: center;*/
+}
+
 
 .button {
     margin: 5px;
+    /*display: none;*/
 
 }
 li.btn-active{
