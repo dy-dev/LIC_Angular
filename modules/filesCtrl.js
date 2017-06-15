@@ -70,10 +70,48 @@ var myApp = angular.module("myApp", ['ngAnimate'])
 
                     parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope);
                 }
-            }
+            };
 
             $scope.containsComparator = function (expected, actual) {
                 return actual.indexOf(expected) > -1;
+            };
+
+            // ajouter des fleche pour faire la suite du diapo passer au suivant
+            $scope.openLightBox = function(file) {
+                // Get the modal
+                var modal = document.getElementById('myModal');
+
+                // Get the image and insert it inside the modal - use its "alt" text as a caption
+                var img = document.getElementById('myImg');
+                var modalImg = document.getElementById("img01");
+                var captionText = document.getElementById("caption");
+
+                // console.log(file.fileName.split(".")[0]);
+                modal.style.display = "block";
+                // changer Miniatures par FullSize - Miniatures
+                modalImg.src = "Medias/FullSize/"+file.fileName;
+                // captionText.innerHTML = this.alt;
+                var tmp = file.fileName.split(".")[0];
+                if (tmp.indexOf('\/') > 0) {
+                    tmp = tmp.split('\/');
+                    var l = tmp.length - 1;
+                    tmp = tmp[l];
+                }
+                captionText.innerHTML = tmp;
+
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                  modal.style.display = "none"; 
+                }
+
+                // var before = document.getElementById("before")[0];
+                // before.onclick = function() {
+                //     // var listImg = document.getElementsByClassName("")
+                //     // modalImg.src = 
+                // }
             };
 
         });

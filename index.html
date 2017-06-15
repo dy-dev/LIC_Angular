@@ -14,6 +14,8 @@ and open the template in the editor.
         <link href="css/animation.css" rel="stylesheet" type="text/css"/>
         <link href="app.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/lightbox.css">
+        <script src="js/lightbox.js" type="text/javacript"></script>
     </head>
     <body ng-app="myApp">
 
@@ -44,6 +46,7 @@ and open the template in the editor.
                     </div>
                 </div> 
                 <div class="container">
+                    <!-- tag a selectionner pour filtrer les sous-catégories -->
                     <div class="nav">
                         <ul class="small-6 medium-8 large-9 columns ">
                             <!-- activer les filtre a partir de là -->
@@ -51,19 +54,39 @@ and open the template in the editor.
                             <li class="button filter" id={{sub}} data-target={{sub}} onclick="chooseFilter()" ng-repeat="sub in Categories[activeFile]">{{sub}}</li>
                         </ul>
                     </div>
-                    <div id="categoriesHolder" class="small-12 medium-9 large-10 columns shuffle-grid" >
-                        <!-- item -->
-                        <div class='small-12 medium-6 large-4 columns slide end item' data-categorie='all {{file.tag[1]}}' ng-repeat='file in Files[activeFile] | filter: tagFilter'>
-                            <img class="imgHolder" id="" src=Medias/Miniatures/{{file.fileName}}>
+                    <!-- div cachée pour l'affichage en grand -->
+                    <div id="myModal" class="modal">
+                        <!-- The Close Button -->
+                        <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+                        <!-- Modal Content (The Image) -->
+                        <img class="modal-content" id="img01">
+                        <!-- Modal Caption (Image Text) -->
+                        <div class="row">
+                            <div id="before" class="small-1 medium-2 large-3 columns"></div>
+                            <div id="after" class="small-1 medium-2 large-3 columns"></div>
                         </div>
+                            <div id="caption"></div>
+                    </div>
+
+                    <div id="categoriesHolder" class="small-12 medium-9 large-10 columns shuffle-grid" >
+                        <ul class="clearing-thumbs" data-clearing>
+                            <!-- item -->
+                            <li class='small-12 medium-6 large-4 columns slide end item' data-categorie='all {{file.tag[1]}}' ng-repeat='file in Files[activeFile] | filter: tagFilter'>
+                                <!-- <a href=Medias/FullSize/{{file.fileName}}> -->
+                                <!-- <a href=Medias/Miniatures/{{file.fileName}}> -->
+                                    <!-- <img class="imgHolder" data-caption="test legende" src=Medias/Miniatures/{{file.fileName}}> -->
+                                    <img class="imgHolder" data-caption="test legende" src=Medias/Miniatures/{{file.fileName}} alt="Trolltunga, Norway" ng-click="openLightBox(file)">
+
+                                <!-- </a> -->
+                            </li>
+                        </ul>
                     </div> 
-                    
                 </div>
-                
             </div> 
         </div>
         <script src="app/components/version/jquery/jquery.js" type="text/javascript"></script>
         <script src="app/components/version/foundation/js/foundation.min.js" type="text/javascript"></script>
+        <script src="js/foundation/foundation.clearing.js" type="text/javascript"></script>
         <script src="js/main.js" type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
@@ -71,6 +94,9 @@ and open the template in the editor.
         <!-- <script src="modules/checkboxMgr.js" type="text/javascript"></script> -->
         <script src="js/app.js" type="text/javascript"></script>
         <script src="js/shuffle.js" type="text/javacript"></script>
+        <script>
+            $(document).foundation();
+        </script>
     </body>
 </html>
 

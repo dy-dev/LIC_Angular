@@ -70,7 +70,7 @@ function parseDir($http, mainDir, refDir, directory, files, tags, $scope)
     // console.log("\tmainDir="+mainDir+"\n\trefDir="+refDir+"\n\tdirectory="+directory+"\n\ttags="+tags+"\n\tfiles V");
     // // console.log(files);
     // console.log("\tscope V");
-    // console.log($scope);
+    console.log($scope);
     // console.log("******");
     // // return;
 
@@ -157,4 +157,3 @@ function parseDir($http, mainDir, refDir, directory, files, tags, $scope)
     }
 
 }
-
