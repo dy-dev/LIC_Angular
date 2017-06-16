@@ -12,6 +12,9 @@ var myApp = angular.module("myApp", ['ngAnimate'])
             $scope.Categories = [];
             $scope.activeFile = "Catégories";
             $scope.tagFilter = "";
+            $scope.prev = -1;
+            $scope.slideIndex = -1;
+            $scope.nex = -1; 
             
             // construction d'un 1er repertoire a parcourir qui contient les miniatures
             $scope.Files.push("Catégories");
@@ -62,7 +65,7 @@ var myApp = angular.module("myApp", ['ngAnimate'])
             });
 
             $scope.goToSubCat = function(categorie) {
-                console.log("GO_TO_SUBCAT: categorie="+categorie);
+                // console.log("GO_TO_SUBCAT: categorie="+categorie);
 
                 if ($scope.Files[categorie].length == 0) {
                     var url = "http://testsite.lightinchaos.com/gallery/Medias/Miniatures/"+categorie+"/";
@@ -74,6 +77,73 @@ var myApp = angular.module("myApp", ['ngAnimate'])
 
             $scope.containsComparator = function (expected, actual) {
                 return actual.indexOf(expected) > -1;
+            };
+
+            $scope.slideAfter = function() {
+                var galerie = document.getElementsByClassName("imgHolder");
+                var after = document.getElementById("after");
+
+                if ($scope.nex >= 0) {
+                    var tmp = galerie[$scope.nex].src.split("Medias/Miniatures/");
+                    document.getElementById("img01").src = "Medias/Miniatures/"+ tmp[1];
+                    // tmp = galerie[$scope.slideIndex].src.substr(galerie[$scope.slideIndex].src.lastIndexOf("\/") + 1);
+                    // retirer .jpg
+                    tmp = galerie[$scope.prev].src.substr(galerie[$scope.slideIndex].src.lastIndexOf("\/") + 1);
+                    tmp = tmp.replace(/\.jpg$|\.png$/g, "");
+                    document.getElementById("caption").innerHTML = tmp;
+                }
+                // else {
+                //     divBefore.onclick = function() {};
+                // }
+
+                $scope.prev += 1;
+                $scope.nex += 1;
+                $scope.slideIndex += 1;
+                if ($scope.slideIndex == 0) {
+                    document.getElementById("before").style.display = "none";
+                    document.getElementById("after").style.display = "inline-block";
+                } else if ($scope.slideIndex < galerie.length - 1) {
+                    document.getElementById("before").style.display = "inline-block";
+                    document.getElementById("after").style.display = "inline-block";
+                } else {
+                    document.getElementById("before").style.display = "inline-block";
+                    document.getElementById("after").style.display = "none";
+                }
+                if (galerie.length == 1) {
+                    document.getElementById("before").style.display = "none";
+                    document.getElementById("after").style.display = "none";
+                }
+            };
+
+            $scope.slideBefore = function() {
+                var galerie = document.getElementsByClassName("imgHolder");
+                var before = document.getElementById("before");
+
+                if ($scope.prev >= 0) {
+                    var tmp = galerie[$scope.prev].src.split("Medias/Miniatures/");
+                    document.getElementById("img01").src = "Medias/Miniatures/"+tmp[1];
+                    tmp = galerie[$scope.prev].src.substr(galerie[$scope.slideIndex].src.lastIndexOf("\/") + 1);
+                    tmp = tmp.replace(/\.jpg$|\.png$/g, "");
+                    document.getElementById("caption").innerHTML = tmp;
+                }
+
+                $scope.prev -= 1;
+                $scope.nex -= 1;
+                $scope.slideIndex -= 1;
+                if ($scope.slideIndex == 0) {
+                    document.getElementById("before").style.display = "none";
+                    document.getElementById("after").style.display = "inline-block";
+                } else if ($scope.slideIndex < galerie.length - 1) {
+                    document.getElementById("before").style.display = "inline-block";
+                    document.getElementById("after").style.display = "inline-block";
+                } else {
+                    document.getElementById("before").style.display = "inline-block";
+                    document.getElementById("after").style.display = "none";
+                }
+                if (galerie.length == 1) {
+                    document.getElementById("before").style.display = "none";
+                    document.getElementById("after").style.display = "none";
+                }
             };
 
             // ajouter des fleche pour faire la suite du diapo passer au suivant
@@ -89,7 +159,12 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                 // console.log(file.fileName.split(".")[0]);
                 modal.style.display = "block";
                 // changer Miniatures par FullSize - Miniatures
-                modalImg.src = "Medias/FullSize/"+file.fileName;
+                modalImg.src = "Medias/Miniatures/"+file.fileName;
+                var galerie = document.getElementsByClassName("imgHolder");
+                // console.log(galerie[0]);
+                // console.log(modalImg.src);
+
+
                 // captionText.innerHTML = this.alt;
                 var tmp = file.fileName.split(".")[0];
                 if (tmp.indexOf('\/') > 0) {
@@ -107,12 +182,39 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                   modal.style.display = "none"; 
                 }
 
-                // var before = document.getElementById("before")[0];
-                // before.onclick = function() {
-                //     // var listImg = document.getElementsByClassName("")
-                //     // modalImg.src = 
-                // }
+                var i = 0;
+                for (var i = 0; i < galerie.length; i++) {
+                    if (galerie[i].src == modalImg.src)
+                        break;
+                };
+                // console.log(i);
+                // console.log(galerie[i].src);
+                // console.log(galerie[i].src.lastIndexOf("\/"));
+                // console.log(galerie[i].src.substr(galerie[i].src.lastIndexOf("\/") + 1));
+
+                $scope.prev = i - 1;
+                $scope.nex = i + 1;
+                if (i == 0) {
+                    document.getElementById("before").style.display = "none";
+                    document.getElementById("after").style.display = "inline-block";
+                    $scope.prev = -1;
+                } else if (i < galerie.length - 1) {
+                    document.getElementById("before").style.display = "inline-block";
+                    document.getElementById("after").style.display = "inline-block";
+                } else {
+                    document.getElementById("before").style.display = "inline-block";
+                    document.getElementById("after").style.display = "none";
+                    $scope.nex = -1;
+                }
+                if (galerie.length == 1) {
+                    document.getElementById("before").style.display = "none";
+                    document.getElementById("after").style.display = "none";
+                }
+                $scope.slideIndex = i;
+
+
             };
+
 
         });
 

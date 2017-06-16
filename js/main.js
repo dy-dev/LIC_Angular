@@ -1,7 +1,4 @@
 
-// window.onload = function () {
-
-// }
 $(window).on('load', function ()
 {
     //$("#SideBar").load('partials/sidebar.html');
@@ -11,6 +8,7 @@ $(window).on('load', function ()
 function goToImgDir () {
     var scope = angular.element("#imgDiv").scope();
 
+    angular.element(".button").removeClass("btn-active");
     angular.element("#all").addClass("btn-active");
     console.log(">>>" + $(event.target).attr('id'));
     if ($(event.target).attr('id') != scope.activeFile) {
@@ -30,15 +28,10 @@ function goToImgDir () {
         }
 
         // reset selection de tag
-        // angular.element(scope.tagFilter).removeClass("btn-active");
-        angular.element(".button").removeClass("btn-active");
+        // angular.element(".button").removeClass("btn-active"); /// ??? remove all au début
         angular.element("#all").addClass("btn-active");
         scope.tagFilter = "";
         scope.$apply();
-        //test
-        // console.log("********");
-        // console.log(scope);
-        // console.log("********");
     }
 }
 
@@ -70,7 +63,7 @@ function parseDir($http, mainDir, refDir, directory, files, tags, $scope)
     // console.log("\tmainDir="+mainDir+"\n\trefDir="+refDir+"\n\tdirectory="+directory+"\n\ttags="+tags+"\n\tfiles V");
     // // console.log(files);
     // console.log("\tscope V");
-    console.log($scope);
+    // console.log($scope);
     // console.log("******");
     // // return;
 
