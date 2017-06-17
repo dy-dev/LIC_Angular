@@ -1,16 +1,10 @@
-
-$(window).on('load', function ()
-{
-    //$("#SideBar").load('partials/sidebar.html');
-});
-
-
 function goToImgDir () {
     var scope = angular.element("#imgDiv").scope();
 
     angular.element(".button").removeClass("btn-active");
     angular.element("#all").addClass("btn-active");
-    console.log(">>>" + $(event.target).attr('id'));
+    // console.log(">>>" + $(event.target).attr('id'));
+    // console.log(">" + scope.activeFile);
     if ($(event.target).attr('id') != scope.activeFile) {
         if ($(event.target).attr('id') != "Catégories") {
             scope.activeFile = $(event.target).attr('id');
@@ -21,12 +15,10 @@ function goToImgDir () {
             else {
                 angular.element(".button").hide(0);
             }
-            // parseDir($http, mainDir, refDir, directory, files, tags, $scope);
         } else {
             scope.activeFile = "Catégories";
             angular.element(".button").hide(0);
         }
-
         // reset selection de tag
         // angular.element(".button").removeClass("btn-active"); /// ??? remove all au début
         angular.element("#all").addClass("btn-active");
@@ -38,10 +30,7 @@ function goToImgDir () {
 function chooseFilter(){
     var scope = angular.element("#imgDiv").scope();
     var newFilter = "#" + $(event.target).attr('data-target');
-    // var oldFilter = "#" + scope.tagFilter;
 
-    // if (oldFilter == "#")
-    //     oldFilter = "#all";
     // console.log(">>> oldfilter="+oldFilter+" newFilter="+newFilter);
     if ($(event.target).attr('data-target') != "all") {
         scope.tagFilter = $(event.target).attr('data-target');
@@ -49,7 +38,6 @@ function chooseFilter(){
     else {
         scope.tagFilter = "";
     }
-    // angular.element(oldFilter).removeClass('btn-active');
     angular.element(".button").removeClass("btn-active");
     angular.element(newFilter).addClass('btn-active');
     scope.$apply();
@@ -99,8 +87,7 @@ function parseDir($http, mainDir, refDir, directory, files, tags, $scope)
             var tmp = $(response).attr("data");
             var myData = $($(response).attr("data")).find("a");
 
-            $(myData).each(function ()
-            {
+            $(myData).each(function () {
                 var lastChar = this.href.substr(-1); // Selects the last character
                 var mySplit2 = this.href.split('\/');
                 // erreur icone ovh
@@ -109,15 +96,13 @@ function parseDir($http, mainDir, refDir, directory, files, tags, $scope)
                     var url2 = directory + tag2 + "/";
                     var tagCopy = tags.slice(0);
 
-                    // changer parent directory selon local ou en ligne
-                    // if (mySplit2[mySplit2.length - 3] != "LIC_Angular" ) {
+                    // changer parent directory selon local ou en ligne -3 ou -2
                     // if (mySplit2[mySplit2.length - 2] != "LIC_Angular" ) {
                     if ($scope.activeFile != "Catégories") {
                         parseDir($http, mainDir, directory, url2, files, tagCopy, $scope);
                     }
                 }
-                else if (this.href.indexOf('.jpg') > 0 || this.href.indexOf('.png') > 0)
-                {
+                else if (this.href.indexOf('.jpg') > 0 || this.href.indexOf('.png') > 0) {
                     var tmp = url.split("Miniatures");
                     var cat = "Catégories";
                     var url3 = "";
@@ -130,15 +115,8 @@ function parseDir($http, mainDir, refDir, directory, files, tags, $scope)
                             if (index > 0)
                               url3 = url3 + element + "/"; 
                         });
-
                     }
                     var tag2 = mySplit2[mySplit2.length - 1];
-                    // var url2 = directory + tag2;
-                    // console.log("=>");
-                    // console.dir(tag2);
-                    
-                    // var myFile = {fileName: url2, tag: tags};
-                    // files[cat].push(myFile.fileName);
                     var myFile = {fileName: (url3 + tag2), tag: tags};
                     files[cat].push(myFile);
                 }

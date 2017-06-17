@@ -4,7 +4,6 @@ var myApp = angular.module("myApp", ['ngAnimate'])
             var dir = "http://testsite.lightinchaos.com/gallery/Medias/Miniatures/";
             // var mainDir = "file:///Users/proprietaire/Downloads/LightInChaos%20Divers/siteLingthInChaos/LIC_Angular/gallery/Medias/"
             // var dir = "file:///Users/proprietaire/Downloads/LightInChaos%20Divers/siteLingthInChaos/LIC_Angular/gallery/Medias/Miniatures/"
-            //var fileextension = ".jpg";
             var nbCol = 0;
             var nbRow = 0;
             var index = 0;
@@ -15,7 +14,6 @@ var myApp = angular.module("myApp", ['ngAnimate'])
             $scope.prev = -1;
             $scope.slideIndex = -1;
             $scope.nex = -1; 
-            
             // construction d'un 1er repertoire a parcourir qui contient les miniatures
             $scope.Files.push("Catégories");
             $scope.Files["Catégories"] = [];
@@ -31,8 +29,7 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                 var tmp = $(response).attr("data");
                 var myData = $($(response).attr("data")).find("a");
                 
-                $(myData).each(function ()
-                {
+                $(myData).each(function () {
                     var lastChar = this.href.substr(-1); // Selects the last character
                     if (lastChar === '/' && this.href !== mainDir && this.text !== "Parent Directory") {
                         var mySplit = this.href.split('\/');
@@ -44,10 +41,8 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                         // pour coller a l'insertion de datacategorie dans les sous dossier
                         var myFile = {fileName: (tag+".jpg"), tag: ["Categories", ""]};
                         $scope.Files["Catégories"].push(myFile);
-                        // $scope.Files["Catégories"].push(tag + ".jpg");
                         $scope.Files.push(tag);
                         $scope.Files[tag] = [];
-                        // $scope.Files[tag].push(tag + ".jpg");
                         angular.element(".button").hide(0);
                         // angular.element(".button").attr('display', 'inline-block');
 
@@ -65,8 +60,6 @@ var myApp = angular.module("myApp", ['ngAnimate'])
             });
 
             $scope.goToSubCat = function(categorie) {
-                // console.log("GO_TO_SUBCAT: categorie="+categorie);
-
                 if ($scope.Files[categorie].length == 0) {
                     var url = "http://testsite.lightinchaos.com/gallery/Medias/Miniatures/"+categorie+"/";
                     var tags = []; /// ???
@@ -101,8 +94,8 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                 $scope.prev += 1;
                 $scope.nex += 1;
                 $scope.slideIndex += 1;
-                    document.getElementById("before").style.display = "inline-block";
-                    document.getElementById("after").style.display = "inline-block";
+                document.getElementById("before").style.display = "inline-block";
+                document.getElementById("after").style.display = "inline-block";
                 if ($scope.slideIndex == 0) {
                     document.getElementById("before").style.display = "none";
                     // document.getElementById("after").style.display = "inline-block";
@@ -136,16 +129,11 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                 $scope.prev -= 1;
                 $scope.nex -= 1;
                 $scope.slideIndex -= 1;
-                    document.getElementById("before").style.display = "inline-block";
-                    document.getElementById("after").style.display = "inline-block";
+                document.getElementById("before").style.display = "inline-block";
+                document.getElementById("after").style.display = "inline-block";
                 if ($scope.slideIndex == 0) {
                     document.getElementById("before").style.display = "none";
-                //     document.getElementById("after").style.display = "inline-block";
-                // } else if ($scope.slideIndex < galerie.length - 1) {
-                //     document.getElementById("before").style.display = "inline-block";
-                //     document.getElementById("after").style.display = "inline-block";
                 } else if ($scope.slideIndex == galerie.length - 1){
-                    // document.getElementById("before").style.display = "inline-block";
                     document.getElementById("after").style.display = "none";
                 }
                 if (galerie.length == 1) {
@@ -172,8 +160,6 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                 // console.log(galerie[0]);
                 // console.log(modalImg.src);
 
-
-                // captionText.innerHTML = this.alt;
                 var tmp = file.fileName.split(".")[0];
                 if (tmp.indexOf('\/') > 0) {
                     tmp = tmp.split('\/');
@@ -200,15 +186,12 @@ var myApp = angular.module("myApp", ['ngAnimate'])
 
                 $scope.prev = i - 1;
                 $scope.nex = i + 1;
+                document.getElementById("before").style.display = "inline-block";
+                document.getElementById("after").style.display = "inline-block";
                 if (i == 0) {
                     document.getElementById("before").style.display = "none";
-                    document.getElementById("after").style.display = "inline-block";
                     $scope.prev = -1;
-                } else if (i < galerie.length - 1) {
-                    document.getElementById("before").style.display = "inline-block";
-                    document.getElementById("after").style.display = "inline-block";
-                } else {
-                    document.getElementById("before").style.display = "inline-block";
+                } else if ($scope.slideIndex == galerie.length - 1){
                     document.getElementById("after").style.display = "none";
                     $scope.nex = -1;
                 }
@@ -217,10 +200,7 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                     document.getElementById("after").style.display = "none";
                 }
                 $scope.slideIndex = i;
-
-
             };
-
 
         });
 

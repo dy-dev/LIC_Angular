@@ -56,14 +56,10 @@ and open the template in the editor.
                     </div>
                     <!-- div cachée pour l'affichage en grand -->
                     <div id="myModal" class="modal">
-                        <!-- The Close Button -->
                         <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
-                        <!-- Modal Content (The Image) -->
                         <img class="modal-content" id="img01">
-                        <!-- Modal Caption (Image Text) -->
                         <div class="row">
                             <a id="before" ng-click="slideBefore()">&#10094;</a>
-                            <!-- <div id="after" class="small-1 medium-2 large-3 columns" ng-click="slideAfter()"></div> -->
                             <a id="after" ng-click="slideAfter()">&#10095;</a>
                         </div>
                             <div id="caption"></div>
@@ -73,11 +69,9 @@ and open the template in the editor.
                         <ul class="clearing-thumbs" data-clearing>
                             <!-- item -->
                             <li class='small-12 medium-6 large-4 columns slide end item' data-categorie='all {{file.tag[1]}}' ng-repeat='file in Files[activeFile] | filter: tagFilter'>
-                                <!-- <a href=Medias/FullSize/{{file.fileName}}> -->
                                 <!-- <a href=Medias/Miniatures/{{file.fileName}}> -->
                                     <!-- <img class="imgHolder" data-caption="test legende" src=Medias/Miniatures/{{file.fileName}}> -->
-                                    <img class="imgHolder" data-caption="test legende" src=Medias/Miniatures/{{file.fileName}} alt="Trolltunga, Norway" ng-click="openLightBox(file)">
-
+                                    <img class="imgHolder" src=Medias/Miniatures/{{file.fileName}} ng-click="openLightBox(file)">
                                 <!-- </a> -->
                             </li>
                         </ul>

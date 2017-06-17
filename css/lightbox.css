@@ -85,16 +85,6 @@
     }
 }
 
-#before {
-    /*background-color: green;*/
-    /*height: 15px;*/
-}
-#after {
-    /*background-color: red;*/
-    /*height: 15px;*/
-}
-
-
 /* Next & previous buttons */
 #before, #after {
   cursor: pointer;
@@ -119,13 +109,13 @@
 
 /* On hover, add a black background color with a little bit see-through */
 #before:hover, #after:hover {
-  /*background-color: rgba(0,0,0,0.8);*/
-  background-color: #258DAD;
+  /*background-color: #258DAD;*/
+  background-color: grey;
 }
 
 
 /* Fading animation */
-.fade {
+/*.fade {
   -webkit-animation-name: fade;
   -webkit-animation-duration: 1.5s;
   animation-name: fade;
@@ -140,4 +130,4 @@
 @keyframes fade {
   from {opacity: .4} 
   to {opacity: 1}
-}
+}*/
