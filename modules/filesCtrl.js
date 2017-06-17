@@ -197,10 +197,6 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                     if (galerie[i].src == modalImg.src)
                         break;
                 };
-                console.log(i);
-                console.log(galerie[i].src);
-                console.log(galerie[i].src.lastIndexOf("\/"));
-                console.log(galerie[i].src.substr(galerie[i].src.lastIndexOf("\/") + 1));
 
                 $scope.prev = i - 1;
                 $scope.nex = i + 1;

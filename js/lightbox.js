@@ -10,8 +10,8 @@ img.onclick = function(){
     // changer Miniatures par FullSize
     modalImg.src = this.src;
     // console.log(this.src);
-    var title = this.innerHTML.split('.');
-    console.log(title);
+    // var title = this.innerHTML.split('.');
+    // console.log(title);
     captionText.innerHTML = this.alt;
     // captionText.innerHTML =  title[0];
 }
