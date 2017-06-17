@@ -80,6 +80,7 @@ var myApp = angular.module("myApp", ['ngAnimate'])
             };
 
             $scope.slideAfter = function() {
+                // correction bug sur le retour affiche toujours la photo architecture
                 var galerie = document.getElementsByClassName("imgHolder");
                 var after = document.getElementById("after");
 
@@ -90,6 +91,7 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                     // retirer .jpg
                     tmp = galerie[$scope.nex].src.substr(galerie[$scope.slideIndex].src.lastIndexOf("\/") + 1);
                     tmp = tmp.replace(/\.jpg$|\.png$/g, "");
+                    tmp = tmp.replace(/\%20|_/g, " ");
                     document.getElementById("caption").innerHTML = tmp;
                 }
                 // else {
@@ -99,17 +101,18 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                 $scope.prev += 1;
                 $scope.nex += 1;
                 $scope.slideIndex += 1;
+                    document.getElementById("before").style.display = "inline-block";
+                    document.getElementById("after").style.display = "inline-block";
                 if ($scope.slideIndex == 0) {
                     document.getElementById("before").style.display = "none";
-                    document.getElementById("after").style.display = "inline-block";
-                    $scope.prev = -1;
-                } else if ($scope.slideIndex < galerie.length - 1) {
-                    document.getElementById("before").style.display = "inline-block";
-                    document.getElementById("after").style.display = "inline-block";
-                } else {
-                    document.getElementById("before").style.display = "inline-block";
+                    // document.getElementById("after").style.display = "inline-block";
+                // } else if ($scope.slideIndex < galerie.length - 1) {
+                //     document.getElementById("before").style.display = "inline-block";
+                //     document.getElementById("after").style.display = "inline-block";
+                // // } else {
+                } else if ($scope.slideIndex == galerie.length - 1){
+                    // document.getElementById("before").style.display = "inline-block";
                     document.getElementById("after").style.display = "none";
-                    $scope.nex = -1;
                 }
                 if (galerie.length == 1) {
                     document.getElementById("before").style.display = "none";
@@ -126,23 +129,24 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                     document.getElementById("img01").src = "Medias/Miniatures/"+tmp[1];
                     tmp = galerie[$scope.prev].src.substr(galerie[$scope.slideIndex].src.lastIndexOf("\/") + 1);
                     tmp = tmp.replace(/\.jpg$|\.png$/g, "");
+                    tmp = tmp.replace(/\%20|_/g, " ");
                     document.getElementById("caption").innerHTML = tmp;
                 }
 
                 $scope.prev -= 1;
                 $scope.nex -= 1;
                 $scope.slideIndex -= 1;
+                    document.getElementById("before").style.display = "inline-block";
+                    document.getElementById("after").style.display = "inline-block";
                 if ($scope.slideIndex == 0) {
                     document.getElementById("before").style.display = "none";
-                    document.getElementById("after").style.display = "inline-block";
-                    $scope.prev = -1;
-                } else if ($scope.slideIndex < galerie.length - 1) {
-                    document.getElementById("before").style.display = "inline-block";
-                    document.getElementById("after").style.display = "inline-block";
-                } else {
-                    document.getElementById("before").style.display = "inline-block";
+                //     document.getElementById("after").style.display = "inline-block";
+                // } else if ($scope.slideIndex < galerie.length - 1) {
+                //     document.getElementById("before").style.display = "inline-block";
+                //     document.getElementById("after").style.display = "inline-block";
+                } else if ($scope.slideIndex == galerie.length - 1){
+                    // document.getElementById("before").style.display = "inline-block";
                     document.getElementById("after").style.display = "none";
-                    $scope.nex = -1;
                 }
                 if (galerie.length == 1) {
                     document.getElementById("before").style.display = "none";
@@ -176,6 +180,8 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                     var l = tmp.length - 1;
                     tmp = tmp[l];
                 }
+                // voir si possible corriger avant pour éviter les replace a chaque chagement des slides
+                tmp = tmp.replace(/\%20|_/g, " ");
                 captionText.innerHTML = tmp;
 
                 // Get the <span> element that closes the modal
