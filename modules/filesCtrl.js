@@ -18,8 +18,6 @@ var myApp = angular.module("myApp", ['ngAnimate'])
             $scope.Files.push("Catégories");
             $scope.Files["Catégories"] = [];
 
-            // angular.element(".button").hide(0);
-
             $http({
                 method: 'GET',
                 url: dir
@@ -43,14 +41,12 @@ var myApp = angular.module("myApp", ['ngAnimate'])
                         $scope.Files["Catégories"].push(myFile);
                         $scope.Files.push(tag);
                         $scope.Files[tag] = [];
-                        angular.element(".button").hide(0);
-                        // angular.element(".button").attr('display', 'inline-block');
 
                         // checkpoint controle construction du tableau 2 dimensions (Files/Catégorie)
                         parseDir($http, mainDir, dir, url, $scope.Files, tags, $scope);
+                        // angular.element(".nav").style.opacity = 1;
+                        angular.element( document.querySelector('.nav')).css('opacity', 1);
                     }
-
-
                 });
             }, function errorCallback(response) {
                 // called asynchronously if an error occurs

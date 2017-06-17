@@ -54,8 +54,6 @@ li {
 
 .button {
     margin: 5px;
-    /*display: none;*/
-
 }
 li.btn-active{
     background-color: red;
@@ -63,5 +61,6 @@ li.btn-active{
 
 .nav {
     height: 120px;
+    opacity: 0;
 }
 

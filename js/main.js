@@ -1,6 +1,6 @@
 function goToImgDir () {
     var scope = angular.element("#imgDiv").scope();
-
+              
     angular.element(".button").removeClass("btn-active");
     angular.element("#all").addClass("btn-active");
     // console.log(">>>" + $(event.target).attr('id'));
